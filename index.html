@@ -20,7 +20,7 @@
     }
 
     .attribution a {
-      color: hsl(228, 45%, 44%);
+      color: hsl(0, 0%, 100%);
     }
   </style>
   <script src="app.js" defer></script>
@@ -68,19 +68,19 @@
     </section>
     <section class="display">
       <div class="current">
-         <div class="location">
+        <div class="location">
           <span class="loc-name">Berlin, Germany</span> <br>
           <span class="today-date">Tuseday,aug 5,2025</span>
-         </div>
-         <div class="data">
+        </div>
+        <div class="data">
           <img src="assets/images/icon-sunny.webp" alt="sun icon">
-          <span class="data-update">20</span>
-         </div>
+          <span class="data-update">20&deg;</span>
+        </div>
       </div>
       <div class="current-info">
         <div class="info1">
           <p>Feels Link</p>
-          <span>18</span>
+          <span>18&deg;</span>
         </div>
         <div class="info2">
           <p>Humidity</p>
@@ -95,8 +95,71 @@
           <span>0 mm</span>
         </div>
       </div>
+      
       <div class="daily">
+        <h3>Daily forecast</h3>
+        <div class="day1">
+          <p>Tue</p>
+          <img src="assets/images/icon-rain.webp" alt="rain icon">
+          <div class="d1">
+            <span>20&deg;</span>
+            <span>14&deg;</span>
+          </div>
+        </div>
 
+        <div class="day1">
+          <p>Wed</p>
+          <img src="assets/images/icon-drizzle.webp" alt="rain icon">
+          <div class="d1">
+            <span>20&deg;</span>
+            <span>14&deg;</span>
+          </div>
+        </div>
+
+        <div class="day1">
+          <p>Thu</p>
+          <img src="assets/images/icon-sunny.webp" alt="rain icon">
+          <div class="d1">
+            <span>20&deg;</span>
+            <span>14&deg;</span>
+          </div>
+        </div>
+
+        <div class="day1">
+          <p>Fri</p>
+          <img src="assets/images/icon-partly-cloudy.webp" alt="rain icon">
+          <div class="d1">
+            <span>20&deg;</span>
+            <span>14&deg;</span>
+          </div>
+        </div>
+
+        <div class="day1">
+          <p>Sat</p>
+          <img src="assets/images/icon-storm.webp" alt="rain icon">
+          <div class="d1">
+            <span>20&deg;</span>
+            <span>14&deg;</span>
+          </div>
+        </div>
+
+        <div class="day1">
+          <p>Sun</p>
+          <img src="assets/images/icon-snow.webp" alt="rain icon">
+          <div class="d1">
+            <span>20&deg;</span>
+            <span>14&deg;</span>
+          </div>
+        </div>
+
+        <div class="day1">
+          <p>Mon</p>
+          <img src="assets/images/icon-fog.webp" alt="rain icon">
+          <div class="d1">
+            <span>20&deg;</span>
+            <span>14&deg;</span>
+          </div>
+        </div>
       </div>
       <aside>
 
@@ -104,9 +167,6 @@
     </section>
   </main>
 
-
-  <!-- Daily forecast -->
-  <!-- Insert daily forecast for the next 7 days here -->
 
   <!-- Hourly forecast -->
   <!-- Insert hourly forecast for the selected day here -->
