@@ -56,6 +56,13 @@ async function processLocation(country) {
 
 // processLocation(country); 
 
+// --- Global state for live refresh ---
+let currentLocationData = null; // Store last searched location for auto-refresh
+let currentGeoData = null; // Store geo data for auto-refresh
+let lastUpdateTime = null; // Track last update time
+let refreshInterval = null; // Timer ID for auto-refresh
+const REFRESH_INTERVAL_MS = 600000; // 10 minutes
+
 //Dom refs for header content
 // const searchBtn = document.querySelector("#searchbtn");
 const noResult = document.querySelector(".no-result");
@@ -90,6 +97,12 @@ unitsDrop.addEventListener("click", (event) => {
   toggleBtwUnits();
   event.stopPropagation();
 });
+
+// Refresh button handler
+const refreshBtn = document.getElementById('refresh-btn');
+if (refreshBtn) {
+  refreshBtn.addEventListener('click', manualRefresh);
+}
 
 searchBtn.addEventListener("click",(event)=>{
   event.preventDefault();
@@ -267,7 +280,7 @@ async function tryRenderForecast(forecastData, geoLocationData, searchQuery) {
   }
 }
 
-// Wire processLocation to render UI
+// Wire processLocation to render UI and set up auto-refresh
 async function processLocation(country) {
   try {
     let res = await getLocation(country);
@@ -279,6 +292,10 @@ async function processLocation(country) {
       await tryRenderForecast(null, null, country);
       return;
     }
+
+    // Store for live refresh
+    currentLocationData = country;
+    currentGeoData = geoLocationData;
 
     let longitude = geoLocationData[0].lon;
     let latitude = geoLocationData[0].lat;
@@ -293,10 +310,74 @@ async function processLocation(country) {
       console.error('Forecast fetch failed, will try local fallback', err);
     }
 
+    // Update last update time
+    lastUpdateTime = new Date();
+    updateLastUpdateDisplay();
+
     await tryRenderForecast(forecastData, geoLocationData, country);
+
+    // Start auto-refresh if not already running
+    startAutoRefresh();
   } catch (error) {
     console.error("Error processing location data:", error);
     // final fallback
     await tryRenderForecast(null, null, country);
+  }
+}
+
+// Auto-refresh weather data every REFRESH_INTERVAL_MS
+function startAutoRefresh() {
+  if (refreshInterval) clearInterval(refreshInterval);
+  
+  refreshInterval = setInterval(async () => {
+    console.log('[Auto-refresh] Fetching latest weather...');
+    if (currentGeoData && currentGeoData.length) {
+      try {
+        const lat = currentGeoData[0].lat;
+        const lon = currentGeoData[0].lon;
+        const forecastData = await getForecast(lat, lon);
+        lastUpdateTime = new Date();
+        updateLastUpdateDisplay();
+        await renderForecast(forecastData, currentGeoData, currentLocationData);
+        console.log('[Auto-refresh] Weather updated successfully');
+      } catch (err) {
+        console.error('[Auto-refresh] Failed to fetch latest data:', err);
+      }
+    }
+  }, REFRESH_INTERVAL_MS);
+}
+
+// Stop auto-refresh
+function stopAutoRefresh() {
+  if (refreshInterval) {
+    clearInterval(refreshInterval);
+    refreshInterval = null;
+  }
+}
+
+// Update "last updated" timestamp in UI
+function updateLastUpdateDisplay() {
+  const lastUpdateEl = document.getElementById('last-update');
+  if (lastUpdateEl && lastUpdateTime) {
+    const timeStr = lastUpdateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    lastUpdateEl.textContent = `Last updated: ${timeStr}`;
+  }
+}
+
+// Manual refresh handler
+async function manualRefresh() {
+  console.log('[Manual refresh] User triggered weather update');
+  if (currentGeoData && currentGeoData.length) {
+    try {
+      const lat = currentGeoData[0].lat;
+      const lon = currentGeoData[0].lon;
+      const forecastData = await getForecast(lat, lon);
+      lastUpdateTime = new Date();
+      updateLastUpdateDisplay();
+      await renderForecast(forecastData, currentGeoData, currentLocationData);
+      console.log('[Manual refresh] Weather updated successfully');
+    } catch (err) {
+      console.error('[Manual refresh] Failed to fetch data:', err);
+    }
   }
 }
