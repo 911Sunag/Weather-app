@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="style.css">
   <title>Frontend Mentor | Weather app</title>
 
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
   <style>
     .attribution {
       font-size: 11px;
@@ -33,26 +32,26 @@
     </section>
     <section class="dropdown">
       <button><img src="assets/images/icon-units.svg" alt="settings logo"> Units <img
-          src="assets/images/icon-dropdown.svg" alt=""></button>
-
+          src="assets/images/icon-dropdown.svg" alt="">
+      </button>
       <div class="imperial">
         <h4>Switch to Imperial</h4>
-        <div class="temp">
+        <div class="units">
           <p>Temperature</p>
-          <button>Celsius (°C) <img src="assets/images/icon-checkmark.svg" alt="tick mark"></button>
-          <button>Fahrenheit (°F) <img src="assets/images/icon-checkmark.svg" alt="tick mark"></button>
+          <button>Celsius (°C) <img src="assets/images/icon-checkmark.svg" alt="tick mark" class="ticku"></button>
+          <button>Fahrenheit (°F) <img src="assets/images/icon-checkmark.svg" alt="tick mark" class="ticku"></button>
           <hr>
         </div>
-        <div class="wind">
+        <div class="units">
           <p>Wind Speed</p>
-          <button>km/h <img src="assets/images/icon-checkmark.svg" alt="tick mark"></button>
-          <button>mph <img src="assets/images/icon-checkmark.svg" alt="tick mark"></button>
+          <button>km/h <img src="assets/images/icon-checkmark.svg" alt="tick mark" class="ticku"></button>
+          <button>mph <img src="assets/images/icon-checkmark.svg" alt="tick mark" class="ticku"></button>
           <hr>
         </div>
-        <div class="precipitation">
+        <div class="units">
           <p>Precipitation</p>
-          <button>Millimeters (mm) <img src="assets/images/icon-checkmark.svg" alt="tick mark"></button>
-          <button>Inches (in) <img src="assets/images/icon-checkmark.svg" alt="tick mark"></button>
+          <button>Millimeters (mm) <img src="assets/images/icon-checkmark.svg" alt="tick mark" class="ticku"></button>
+          <button>Inches (in) <img src="assets/images/icon-checkmark.svg" alt="tick mark" class="ticku"></button>
         </div>
       </div>
 
@@ -62,115 +61,203 @@
     <section class="hero">
       <h1>How's the sky looking today?</h1>
     </section>
+
     <section class="search">
-      <input type="text" placeholder="Search for a place">
-      <button>Search</button>
+      <input type="text" placeholder="Search for a place" id="si">
+      <p id="searching"><img src="assets/images/icon-loading.svg" alt="loding - icon">Search in progress . . .</p>
+      <button id="searchbtn" type="submit">Search</button>
     </section>
+
+    <section class="no-result">
+      <h2>No search result Found!</h2>
+    </section>
+
+    <section class="Api-error">
+      <img src="assets/images/icon-error.svg" alt="error image">
+      <h1>Something Went Wrong</h1>
+      <p>
+        We couldn't connect to the server (API Error) .please try again in a few moments.
+      </p>
+      <button><img src="assets/images/icon-retry.svg" alt="retry">Retry</button>
+    </section>
+
     <section class="display">
       <div class="current">
         <div class="location">
-          <span class="loc-name">Berlin, Germany</span> <br>
-          <span class="today-date">Tuseday,aug 5,2025</span>
+          <span class="loc-name">Loding..</span> <br>
+          <span class="today-date">__ __ __</span>
         </div>
         <div class="data">
-          <img src="assets/images/icon-sunny.webp" alt="sun icon">
-          <span class="data-update">20&deg;</span>
+          <!-- <img src="assets/images/icon-sunny.webp" alt="sun icon"> -->
+          <span class="data-update">__&deg;</span>
         </div>
       </div>
       <div class="current-info">
         <div class="info1">
           <p>Feels Link</p>
-          <span>18&deg;</span>
+          <span>_ _</span>
         </div>
         <div class="info2">
           <p>Humidity</p>
-          <span>46%</span>
+          <span>_ _</span>
         </div>
         <div class="info3">
           <p>Wind</p>
-          <span>14 km/h</span>
+          <span>_ _</span>
         </div>
         <div class="info4">
           <p>Precipitation</p>
-          <span>0 mm</span>
+          <span>_ _</span>
         </div>
       </div>
-      
+
       <div class="daily">
         <h3>Daily forecast</h3>
         <div class="day1">
-          <p>Tue</p>
-          <img src="assets/images/icon-rain.webp" alt="rain icon">
+          <p>_</p>
+          <!-- <img src="assets/images/icon-rain.webp" alt="rain icon"> -->
           <div class="d1">
-            <span>20&deg;</span>
-            <span>14&deg;</span>
+            <span>-&deg;</span>
+            <span>-&deg;</span>
           </div>
         </div>
 
         <div class="day1">
-          <p>Wed</p>
-          <img src="assets/images/icon-drizzle.webp" alt="rain icon">
+          <p>_</p>
+          <!-- <img src="assets/images/icon-drizzle.webp" alt="rain icon"> -->
           <div class="d1">
-            <span>20&deg;</span>
-            <span>14&deg;</span>
+            <span>_&deg;</span>
+            <span>_&deg;</span>
           </div>
         </div>
 
         <div class="day1">
-          <p>Thu</p>
-          <img src="assets/images/icon-sunny.webp" alt="rain icon">
+          <p>_</p>
+          <!-- <img src="assets/images/icon-sunny.webp" alt="rain icon"> -->
           <div class="d1">
-            <span>20&deg;</span>
-            <span>14&deg;</span>
+            <span>_&deg;</span>
+            <span>_&deg;</span>
           </div>
         </div>
 
         <div class="day1">
-          <p>Fri</p>
-          <img src="assets/images/icon-partly-cloudy.webp" alt="rain icon">
+          <p>_</p>
+          <!-- <img src="assets/images/icon-partly-cloudy.webp" alt="rain icon"> -->
           <div class="d1">
-            <span>20&deg;</span>
-            <span>14&deg;</span>
+            <span>_&deg;</span>
+            <span>_&deg;</span>
           </div>
         </div>
 
         <div class="day1">
-          <p>Sat</p>
-          <img src="assets/images/icon-storm.webp" alt="rain icon">
+          <p>_</p>
+          <!-- <img src="assets/images/icon-storm.webp" alt="rain icon"> -->
           <div class="d1">
-            <span>20&deg;</span>
-            <span>14&deg;</span>
+            <span>_&deg;</span>
+            <span>_&deg;</span>
           </div>
         </div>
 
         <div class="day1">
-          <p>Sun</p>
-          <img src="assets/images/icon-snow.webp" alt="rain icon">
+          <p>_</p>
+          <!-- <img src="assets/images/icon-snow.webp" alt="rain icon"> -->
           <div class="d1">
-            <span>20&deg;</span>
-            <span>14&deg;</span>
+            <span>_&deg;</span>
+            <span>_&deg;</span>
           </div>
         </div>
 
         <div class="day1">
-          <p>Mon</p>
-          <img src="assets/images/icon-fog.webp" alt="rain icon">
+          <p>_</p>
+          <!-- <img src="assets/images/icon-fog.webp" alt="rain icon"> -->
           <div class="d1">
-            <span>20&deg;</span>
-            <span>14&deg;</span>
+            <span>_&deg;</span>
+            <span>_&deg;</span>
           </div>
         </div>
       </div>
       <aside>
+        <div class="hr">
+          <h3>Hourly forecast</h3>
+          <button><span id="hourly-day">Today</span><img src="assets/images/icon-dropdown.svg" alt=""></button>
+        </div>
+        <div class="week-drop">
+          <p>Monday</p>
+          <p>Tuseday</p>
+          <p>Wednesday</p>
+          <p>Thursday</p>
+          <p>Friday</p>
+          <p>Saturday</p>
+          <p>Sunday</p>
+        </div>
+        <div class="hrly">
+          <div class="hour-card">
+            <div class="hour-left">
+              <!-- <img src="assets/images/icon-overcast.webp" alt=""> -->
+              <span>_ __</span>
+            </div>
+            <span class="hour-temp">_ _</span>
+          </div>
 
+          <div class="hour-card">
+            <div class="hour-left">
+              <!-- <img src="assets/images/icon-partly-cloudy.webp" alt=""> -->
+              <span>_ __</span>
+            </div>
+            <span class="hour-temp">_ _</span>
+          </div>
+
+          <div class="hour-card">
+            <div class="hour-left">
+              <!-- <img src="assets/images/icon-sunny.webp" alt=""> -->
+              <span>_ __</span>
+            </div>
+            <span class="hour-temp">_ _</span>
+          </div>
+
+          <div class="hour-card">
+            <div class="hour-left">
+              <!-- <img src="assets/images/icon-overcast.webp" alt=""> -->
+              <span>_ __</span>
+            </div>
+            <span class="hour-temp">_ _</span>
+          </div>
+
+          <div class="hour-card">
+            <div class="hour-left">
+              <!-- <img src="assets/images/icon-drizzle.webp" alt=""> -->
+              <span>_ __</span>
+            </div>
+            <span class="hour-temp">_ _</span>
+          </div>
+
+          <div class="hour-card">
+            <div class="hour-left">
+              <!-- <img src="assets/images/icon-snow.webp" alt=""> -->
+              <span>_ __</span>
+            </div>
+            <span class="hour-temp">_ _</span>
+          </div>
+
+          <div class="hour-card">
+            <div class="hour-left">
+              <!-- <img src="assets/images/icon-snow.webp" alt=""> -->
+              <span>_ __</span>
+            </div>
+            <span class="hour-temp">_ _</span>
+          </div>
+
+          <div class="hour-card">
+            <div class="hour-left">
+              <!-- <img src="assets/images/icon-overcast.webp" alt=""> -->
+              <span>_ __</span>
+            </div>
+            <span class="hour-temp">_ _</span>
+          </div>
+        </div>
       </aside>
     </section>
   </main>
-
-
-  <!-- Hourly forecast -->
-  <!-- Insert hourly forecast for the selected day here -->
-
   <footer>
     <div class="attribution">
       Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>. <br>

@@ -17,7 +17,7 @@
   box-sizing: border-box;
 }
 body {
-  background-color: var(--Neutral-900);
+  background: linear-gradient(180deg,var(--Neutral-900),var(--Blue700));
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -36,6 +36,7 @@ header {
 .dropdown {
   position: relative;
   user-select: none;
+  display: none;
 }
 
 .dropdown button {
@@ -49,6 +50,14 @@ header {
   color: var(--Neutral-0);
   font-family: "DM Sans", sans-serif;
   font-weight: 500;
+  cursor: pointer;
+}
+.dropdown button .ticku{
+  display: none;
+}
+.dropdown button:focus{
+  border: 1px solid var(--Neutral-600);
+  background-color: var(--Neutral-600);
 }
 .imperial {
   background-color: var(--Neutral-800);
@@ -63,6 +72,7 @@ header {
   right: 0%;
   margin-top: 1rem;
   border: 1px solid var(--Neutral-600);
+  z-index: 1;
   user-select: none;
 }
 .imperial h4 {
@@ -77,33 +87,25 @@ header {
 .imperial button {
   color: var(--Neutral-0);
 }
-.temp,
-.wind,
-.precipitation {
+.units {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.3rem;
   width: 100%;
 }
-.temp hr,
-.wind hr,
-.precipitation hr {
+.units hr{
   width: 100%;
   border: 1px solid rgb(74, 71, 116);
 }
-.temp button,
-.wind button,
-.precipitation button {
+.units button{
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 0.5rem;
 }
-.temp button:hover,
-.wind button:hover,
-.precipitation button:hover {
+.units button:hover {
   background-color: var(--Neutral-700);
 }
 main {
@@ -114,13 +116,19 @@ main {
   align-items: center;
   justify-content: center;
 }
+.hero{
+  display: none;
+}
 .hero h1 {
   color: var(--Neutral-0);
   font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 3rem;
 }
 .search {
   display: flex;
   gap: 0.8rem;
+  width: 38rem;
+  position: relative;
 }
 .search input {
   padding: 0.8rem 2.5rem;
@@ -139,6 +147,27 @@ main {
   background-position-x: 10px;
   cursor: pointer;
 }
+.search input:focus{
+  border: 1px solid var(--Neutral-600);
+}
+.search p{
+  position: absolute;
+  width: 80%;
+  background-color: var(--Neutral-800);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  top: 110%;
+  left: 1%;
+  z-index: 1;
+  border: 2px solid var(--Neutral-600);
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  color: var(--Neutral-0);
+  font-family: "Bricolage Grotesque",sans-serif;
+  font-size: 0.7rem;
+}
 .search button {
   border: none;
   padding: 0 1.5rem;
@@ -151,12 +180,59 @@ main {
   background-color: var(--Blue700);
   cursor: pointer;
 }
+.Api-error{
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+.Api-error img{
+  width: 10%;
+  height: auto;
+}
+.Api-error h1{
+  font-family: "Bricolage Grotesque",sans-serif;
+  color: var(--Neutral-0);
+}
+.Api-error p{
+  text-align: center;
+  color: var(--Neutral-300);
+  font-family: "DM Sans",sans-serif;
+  width: 70%;
+  font-weight: 600;
+}
+.Api-error button{
+  padding: 0.5rem 1.5rem ;
+  background-color: var(--Neutral-800);
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  color: var(--Neutral-0);
+  font-weight: 600;
+  cursor: pointer;
+}
+.Api-error button img{
+  width: 20%;
+  height: auto;
+}
+.Api-error button:hover{
+  background-color: var(--Neutral-900);
+}
 .display {
   min-width: 100%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(3, 0.5fr);
   gap: 1rem;
+  display: grid;
+}
+.no-result{
+  color: var(--Neutral-0);
+  font-family: "Bricolage Grotesque",sans-serif;
+  text-transform: capitalize;
+  display: none;
 }
 .current {
   grid-column: 1 / 4;
@@ -164,7 +240,7 @@ main {
   background-repeat: no-repeat;
   background-position: left center;
   background-size: cover;
-  border-radius: 25px;
+  border-radius: 10px;
   height: 16rem;
   display: flex;
   align-items: center;
@@ -177,7 +253,7 @@ main {
   flex-direction: column;
 }
 .location .loc-name {
-  font-size: 4rem;
+  font-size: 2rem;
   font-family: "DM Sans", sans-serif;
   font-weight: 700;
   line-height: 4.5rem;
@@ -265,12 +341,12 @@ main {
   /* background-color: aqua; */
   position: relative;
 }
-.daily h3{
-    position: absolute;
-    top: -25%;
-    color: var(--Neutral-200);
-    font-family: "DM Sans",sans-serif;
-    font-size: 1rem;
+.daily h3 {
+  position: absolute;
+  top: -25%;
+  color: var(--Neutral-200);
+  font-family: "DM Sans", sans-serif;
+  font-size: 1rem;
 }
 .day1 {
   background-color: var(--Neutral-800);
@@ -279,36 +355,314 @@ main {
   border-radius: 10px;
   border: 2px solid var(--Neutral-700);
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 .day1 p {
   text-align: center;
-  font-family: "DM Sans",sans-serif;
+  font-family: "DM Sans", sans-serif;
   color: var(--Neutral-0);
   font-weight: 600;
   font-size: 0.8rem;
 }
-.day1 img{
-    width: 90%;
-    height: auto;
+.day1 img {
+  width: 90%;
+  height: auto;
 }
-.day1 .d1{
+.day1 .d1 {
   display: flex;
   justify-content: space-between;
 }
-.day1 .d1 span{
-    color: var(--Neutral-200);
-    font-family: "Bricolage Grotesque",sans-serif;
-    font-size: 0.8rem;
+.day1 .d1 span {
+  color: var(--Neutral-200);
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 0.8rem;
 }
 aside {
   grid-column: 4 / 6;
   grid-row: 1 / 4;
   background-color: var(--Neutral-800);
   border: 2px solid var(--Neutral-700);
-  border-radius: 25px;
+  border-radius: 10px;
+  position: relative;
+}
+.hr{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+.hr h3{
+  color: var(--Neutral-0);
+  font-family: "DM Sans",sans-serif;
+  font-weight: 600;
+}
+.hr button{
+  border: none;
+  background-color: var(--Neutral-600);
+  padding: 0.5rem 0.8rem ;
+  border-radius: 5px;
+  color: var(--Neutral-200);
+  display: flex;
+  gap: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.hr button:focus{
+  border: 1px solid var(--Neutral-300);
+}
+.week-drop{
+  background-color: var(--Neutral-900);
+  width: 40%;
+  display: none;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 2px solid var(--Neutral-700);
+  position: absolute;
+  left: 56.5%;
+  color: var(--Neutral-0);
+  font-family: "Bricolage Grotesque",sans-serif;
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
+}
+.week-drop p{
+  padding: 0.5rem;
+  width: 100%;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+.week-drop p:hover{
+  background-color: var(--Neutral-700);
+  cursor: pointer;
+}
+
+.hrly {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1rem;
+  height: calc(100% - 5rem);
+  overflow-y: auto;
+}
+
+.hour-card {
+  background-color: var(--Neutral-700);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--Neutral-600);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.2s ease;
+}
+
+.hour-card:hover {
+  background-color: var(--Neutral-600);
+  cursor: pointer;
+}
+
+.hour-left {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.hour-left img {
+  width: 28px;
+  height: 28px;
+}
+
+.hour-left span {
+  color: var(--Neutral-0);
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.hour-temp {
+  color: var(--Neutral-200);
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1rem;
+}
+/* Scrollbar styling for the hourly list */
+.hrly::-webkit-scrollbar-button {
+  display: none;
+}
+
+.hrly::-webkit-scrollbar {
+  width: 2.5px;
+}
+
+.hrly::-webkit-scrollbar-track {
+  background: var(--Neutral-800);
+  border-radius: 10px;
+}
+
+.hrly::-webkit-scrollbar-thumb {
+  background: var(--Neutral-600);
+  border-radius: 10px;
+}
+
+.hrly::-webkit-scrollbar-thumb:hover {
+  background: var(--Neutral-700);
 }
 
 footer {
   font-family: "Bricolage Grotesque", sans-serif;
   user-select: none;
+}
+
+/* ============================
+   MOBILE — 375px layout
+   ============================ */
+@media (max-width: 480px) {
+
+  body {
+    padding: 1rem;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+
+  header {
+    padding: 0 0.5rem;
+    /* background-color: aqua; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  main {
+    width: 100%;
+    gap: 1rem;
+  }
+  
+  header .title img{
+    padding: 1rem 1rem;
+  }
+
+  /* ---- HERO TITLE ---- */
+  .hero {
+    display: block;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: 2rem;
+    line-height: 2.4rem;
+  }
+  .dropdown{
+    display: none;
+  }
+
+  /* ---- SEARCH BAR ---- */
+  .search {
+    width: 100%;
+    flex-direction: column;
+  }
+  .search button {
+    width: 100%;
+    padding: 0.9rem 0;
+  }
+
+  /* ---- GRID DISPLAY TO SINGLE COLUMN ---- */
+  .display {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 1.2rem;
+  }
+
+  /* ---- CURRENT WEATHER CARD ---- */
+  .current {
+    grid-column: 1 / 2;
+    height: auto;
+    flex-direction: column;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .location .loc-name {
+    font-size: 1.8rem;
+    line-height: 2.4rem;
+  }
+
+  .data {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .data .data-update {
+    font-size: 5rem;
+  }
+
+  /* ---- CURRENT INFO CARDS ---- */
+  .current-info {
+    grid-column: 1 / 2;
+    height: auto;
+    flex-direction: column;
+  }
+  .info1, .info2, .info3, .info4 {
+    height: auto;
+    gap: 0.4rem;
+  }
+
+  /* ---- DAILY FORECAST ---- */
+  .daily {
+    grid-column: 1 / 2;
+    height: auto;
+    flex-direction: column;
+  }
+
+  .daily h3 {
+    position: static;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .day1 {
+    height: 7rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .day1 p {
+    font-size: 0.9rem;
+  }
+  .day1 img {
+    width: 40px;
+  }
+  .day1 .d1 span {
+    font-size: 0.9rem;
+  }
+
+  /* ---- HOURLY SIDEBAR → FULL WIDTH ---- */
+  aside {
+    grid-column: 1 / 2;
+    grid-row: auto;
+    width: 100%;
+    height: auto;
+  }
+
+  .hr {
+    padding: 1rem;
+  }
+
+  .week-drop {
+    width: 60%;
+    left: 35%;
+  }
+
+  .hrly {
+    max-height: 300px;
+  }
+
+  .hour-card {
+    padding: 0.7rem 0.9rem;
+  }
+
+  /* Hide footer icons & shrink text */
+  footer {
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
+  }
 }
